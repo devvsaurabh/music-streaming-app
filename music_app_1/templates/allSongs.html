@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+    {% block body_block %}
+        <div class="jumbotron">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">SongID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Album</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for i in songs%}
+                  <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.title }}</td>
+                    <td>{{ i.artist }}</td>
+                    <td>{{ i.album }}</td>
+                  </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    {% endblock %}
