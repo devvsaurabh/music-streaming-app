@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+    {% block body_block %}
+        <div class="jumbotron">
+            <h4>Play Song !</h4>
+            <p><pre><b>Title: </b>{{ music.title }}</pre></p>
+            <p><pre><b>Album: </b>{{ music.album }}   <b>Artists: </b>{{ music.artist }}</pre></p>
+            <p></p>
+            <audio controls>
+                <source src="{{ path }}" type="audio/mpeg">
+            </audio>
+            <br>
+            <br>
+            <a href="/song/download/{{ music.filename}}" target="blank">
+                <button class='btn btn-primary'>Download</button>
+            </a>
+
+        </div>
+    {% endblock %}

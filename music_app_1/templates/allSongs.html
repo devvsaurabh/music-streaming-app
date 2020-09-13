@@ -9,15 +9,17 @@
                     <th scope="col">Title</th>
                     <th scope="col">Artist</th>
                     <th scope="col">Album</th>
+                    <th scope="col">Delete Song</th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for i in songs%}
                   <tr>
                     <td>{{ i.id }}</td>
-                    <td>{{ i.title }}</td>
+                    <td><a href="/song/play/{{ i.id }}">{{ i.title }}</a></td>
                     <td>{{ i.artist }}</td>
                     <td>{{ i.album }}</td>
+                    <td><a href="/song/delete/{{i.id}}">Delete</a></td>
                   </tr>
                     {% endfor %}
                 </tbody>

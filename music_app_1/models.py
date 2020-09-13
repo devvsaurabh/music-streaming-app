@@ -9,11 +9,13 @@ class MusicStore(db.Model):
     title = db.Column(db.Text)
     artist = db.Column(db.Integer)
     album = db.Column(db.Text)
+    filename = db.Column(db.Text)
 
-    def __init__(self,title,artist,album):
+    def __init__(self,title,artist,album,filename):
         self.title = title
         self.artist = artist
         self.album = album
+        self.filename = filename
 
 
     def __repr__(self):

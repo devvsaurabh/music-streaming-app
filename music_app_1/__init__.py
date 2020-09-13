@@ -21,5 +21,5 @@ Migrate(app,db)
 
 from music_app_1.views import songs_blueprint
 
-app.register_blueprint(songs_blueprint,url_prefix='/song')
+app.register_blueprint(songs_blueprint,url_prefix='/song/')
 
