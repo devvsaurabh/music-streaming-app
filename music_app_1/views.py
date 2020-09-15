@@ -111,7 +111,7 @@ def search_results(search):
 
     if not songs:
         flash('No results found!')
-        return fetch_all_songs()
+        return render_template('allSongs.html', form = search,songs=[])
     else:
         return render_template('allSongs.html', form = search,songs=songs)
 
