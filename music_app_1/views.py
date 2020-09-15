@@ -12,16 +12,18 @@ songs_blueprint = Blueprint('songs',__name__,
                              template_folder="templates/")
 
 
+# Function to check if the file has extension of .mp3
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['UPLOAD_EXTENSIONS']
 
 
+# Route to upload the songs
 @songs_blueprint.route("upload/",methods=["GET","POST"])
 def upload_song():
 
     form = SongUploadForm()
 
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate_on_submit():
         if 'file' not in request.files:
             flash('No file uploaded')
             return redirect(request.url)
@@ -34,7 +36,7 @@ def upload_song():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             music = MusicStore.query.filter(MusicStore.filename.like(filename)).first()
-            print(music)
+        
             if music == None or music.filename != filename :
                 file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
 
@@ -48,11 +50,12 @@ def upload_song():
                 db.session.commit()
                 return fetch_all_songs()
             else:
-                flash("File Already Exists")
+                flash("Song Already Exists")
                 return redirect(request.url)
     return render_template('upload.html', form=form)
 
 
+# Route to delete the song
 @songs_blueprint.route("delete/<id>",methods=["GET","POST"])
 def delete_song(id):
     # delete the song using songid
@@ -61,9 +64,11 @@ def delete_song(id):
     os.remove(path)
     db.session.delete(song)
     db.session.commit()
+    flash("Song Deleted !")
     return fetch_all_songs()
 
 
+# Route to play the song
 @songs_blueprint.route("play/<id>",methods = ["GET","POST"])
 def play_song(id):
     music = MusicStore.query.get(id)
@@ -72,14 +77,14 @@ def play_song(id):
     return render_template("play.html",path=path,music = music)
 
 
-
+# Route to download the song
 @songs_blueprint.route("download/<filename>",methods=["GET","POST"])
 def download_song(filename):
     path = os.path.join(app.config['UPLOAD_PATH'], filename)
     return send_file(path, as_attachment=True)
     
 
-
+# Route to search songs
 @songs_blueprint.route('searchSong/', methods=['GET', 'POST'])
 def search_song():
     srchForm = SearchForm(request.form)
@@ -111,6 +116,7 @@ def search_results(search):
         return render_template('allSongs.html', form = search,songs=songs)
 
 
+# Route to list all the songs
 @songs_blueprint.route("all_songs/",methods=["GET"])
 def fetch_all_songs():
     srchForm = SearchForm()
@@ -118,12 +124,6 @@ def fetch_all_songs():
     return render_template('allSongs.html', songs=songs,form=srchForm)
 
 
-@songs_blueprint.route("delete_all/",methods=["GET"])
-def delete_all_songs():
-    num_rows_deleted = db.session.query(MusicStore).delete()
-    db.session.commit()
-    return fetch_all_songs()
-    
 
 
 

@@ -22,6 +22,15 @@
         </ul>
       </div>
     </nav>
+    {% for mess in get_flashed_messages() %}
+      <div class="alert alert-warning alert-dismissible fade show" role='alert'>
+        <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ mess }}
+      </div>
+
+    {% endfor %}
     <div class="container">
               {% block body_block %}
 

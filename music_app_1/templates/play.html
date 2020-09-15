@@ -7,7 +7,7 @@
             <p><pre><b>Album: </b>{{ music.album }}   <b>Artists: </b>{{ music.artist }}</pre></p>
             <p></p>
             <audio controls>
-                <source src="{{ path }}" type="audio/mpeg">
+                <source src= "{{ url_for('static',filename = music.filename)}}" type="audio/mp3">
             </audio>
             <br>
             <br>
